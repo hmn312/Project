@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface StudentMapper {
 
-    //查询所有学生
+    //查询所有的学生
     List<Student> findAll();
 }
