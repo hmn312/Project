@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+     .oddtr{background-color: aquamarine}
+    </style>
+
+    <script th:inline="javascript">
+        var mess = [[${message}]];
+        alert("mess:" + mess);
+    </script>
+
+</head>
+<body>
+
+<h1>thymeleafboot  --  hello.html</h1>
+
+<P th:text="'mess:'+${message}+'!!!'">message</P>
+<hr>
+
+<div  th:text="${session.stu.sname}" th:style="'width:'+@{50.0/100*100}+'%;border:solid 1px red;background:yellow;'">从session获取对象的属性</div>
+<hr>
+
+<table border="1" cellpadding="0" cellspacing="0">
+    <tr>
+        <th>sid</th>
+        <th>名字</th>
+        <th>出生日期</th>
+        <th>比较</th>
+        <th>选择</th>
+    </tr>
+
+    <tr th:each="stu,state:${list}" th:class="${state.odd}?'oddtr'">
+        <td th:text="${stu.sid}">sid</td>
+        <td th:text="${#strings.substring(stu.sname,0,2)}">名字</td>
+        <td th:text="${#dates.format(stu.bornDate,'yyyy-MM-dd')}">出生日期</td>
+        <td th:text="${state.index==0}?'ok':'no'">比较运算</td>
+        <!--if else :比较可以写外面也可以写里面-->
+        <td th:if="${state.index} lt 3" th:text="老大">选择--if</td>
+        <td th:unless="${state.index lt 3}" th:text="小弟">选择--else</td>
+    </tr>
+
+</table>
+
+<hr>
+
+<input type="text" th:value="${#numbers.formatDecimal('12.345678',1,3)}">
+<hr>
+
+<select>
+    <option th:each="stu:${list}" th:value="${stu.sname}" th:text="${stu.sname}">请选择1</option>
+</select>
+<hr>
+
+<select>
+    <option th:each="stu:${list}" th:value="${stu.sname}" th:text="${stu.sname}" th:selected="${stu.sname=='王麻子'}">请选择2</option>
+</select>
+<hr>
+
+<select th:field="*{student.sname}">
+    <option th:each="stu:${list}"  th:value="${stu.sname}" th:text="${stu.sname}">请选择3</option>
+</select>
+<hr>
+
+<P th:text="${map.aa}">map</p>
+<p th:text="${map.baidu}">map</p>
+<P th:utext="${map.baidu}">map</p>
+<P th:text="${map.stu.sname}">map</p>
+<hr>
+
+获取map中嵌套的集合
+<P th:text="${map.list}">map.list</p>
+<p th:each="stu:${map.list}" th:text="${stu.sname}">sname</p>
+
+<hr>
+
+固定死值显示
+<img src="images/btn-confirm.gif"  th:src="@{images/btn-fastbuy.gif}"  alt="图片显示失败"/>
+<br><hr>
+<img src="images/btn-fastbuy.gif" th:src="@{images/btn-confirm.gif}"   alt="图片显示失败"/>
+<br><hr>
+
+超链接使用?传递参数-->使用()
+<a th:href="@{test(id=${student.sid},name=${student.sname})}">超链接</a>
+<hr>
+
+<div th:include="show.html">show.html</div>
+<hr>
+
+<iframe src="http://www.baidu.com" th:width="800px"></iframe>
+
+
+
+
+</body>
+</html>
